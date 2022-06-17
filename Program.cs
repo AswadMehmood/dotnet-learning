@@ -4,7 +4,10 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            int a = 10;
+            int b = 15;
+
+            Console.WriteLine($"a = {a}, b = {b}");
         }
     }
 }

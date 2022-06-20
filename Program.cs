@@ -1,13 +1,14 @@
-﻿namespace dotnet_learning
+﻿using Models;
+
+namespace dotnet_learning
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            int a = 10;
-            int b = 15;
+            Address address = new Address();
 
-            Console.WriteLine($"a = {a}, b = {b}");
+            
         }
     }
 }

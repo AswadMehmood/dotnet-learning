@@ -6,11 +6,30 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    internal class City:Address
+    internal class City : Address
     {
 
         public int subSecter;
         public string sectreName = "";
+
+        public City() { }
+
+        public City(Address address)
+        {
+            cityName = address.cityName;
+            districtName = address.districtName;
+            provinceName = address.provinceName;
+            houseNumber = address.houseNumber;
+            streetNumber = address.streetNumber;
+            
+            if (address is City)
+            {
+                var cityAddress = address as City;
+                sectreName = cityAddress.sectreName;
+                subSecter = cityAddress.subSecter;
+            }
+        }
+
         public string GetFullAddress()
         {
             string fullAddress = "";
@@ -22,6 +41,7 @@ namespace Models
             fullAddress += "Province " + provinceName;
             return fullAddress;
         }
+
         public string GetShortAddress()
         {
             string shortAddress = "";

@@ -28,13 +28,82 @@ namespace dotnet_learning
                     addressBook.addresses.Add(villageAddress);
                 }
             }
-            Console.WriteLine("print");
+
+            string jsonString = ComposeJson();
+            WriteFileLines(jsonString);
+
         }
+
+        // '{"name":"John", "age":30, "car":null}'
+        public static string ComposeJson()
+        {
+            string output = "";
+            foreach (Address address in addressBook.addresses)
+            {
+                output += "{";
+
+                output += "\"houseNumber\"";
+                output += ":";
+                output += "\"" + address.houseNumber.ToString() + "\"";
+                output += ", ";
+
+                output += "\"streetNumber\"";
+                output += ":";
+                output += "\"" + address.streetNumber.ToString() + "\"";
+                output += ", ";
+
+                if (address is City)
+                {
+                    City city = new City(address);
+                    output += "\"sectreName\"";
+                    output += ":";
+                    output += "\"" + city.sectreName + "\"";
+                    output += ", ";
+
+                    output += "\"subSecter\"";
+                    output += ":";
+                    output += "\"" + city.subSecter.ToString() + "\"";
+                    output += ", ";
+                }
+                else
+                {
+                    Village village = new Village(address);
+                    output += "\"villageName\"";
+                    output += ":";
+                    output += "\"" + village.villageName + "\"";
+                    output += ", ";
+                }
+
+                output += "\"cityName\"";
+                output += ":";
+                output += "\"" + address.cityName + "\"";
+                output += ", ";
+
+                output += "\"districtName\"";
+                output += ":";
+                output += "\"" + address.districtName + "\"";
+                output += ", ";
+
+                output += "\"provinceName\"";
+                output += ":";
+                output += "\"" + address.provinceName + "\"";
+                
+
+              
+
+                output += "}\n";
+            }
+            return output;
+        }
+
+
+
+
 
         private static Village ParseVillageAddress(string fileLine)
         {
             Village villageAddress = new Village();
-            string[] splitString = fileLine.Split(",");
+            string[] splitString = fileLine.Split(", ");
             foreach (string addressBit in splitString)
             {
                 if (addressBit.Contains("house"))
@@ -74,7 +143,7 @@ namespace dotnet_learning
         private static City ParseCityAddress(string fileLine)
         {
             City cityAddress = new City();
-            string[] splitString = fileLine.Split(",");
+            string[] splitString = fileLine.Split(", ");
             foreach (string addressBit in splitString)
             {
                 if (addressBit.Contains("house"))
@@ -108,6 +177,13 @@ namespace dotnet_learning
                 }
             }
             return cityAddress;
+        }
+
+        private static void WriteFileLines(string jsonString)
+        {
+            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string filePath = desktopPath + "\\Addresses.json";
+            File.WriteAllText(filePath, jsonString);
         }
 
         private static string[] GetFileLines()

@@ -10,6 +10,25 @@ namespace Models
     {
         public string villageName = "";
 
+        public Village() { }
+
+        public Village (Address address)
+        {
+            cityName = address.cityName;
+            districtName = address.districtName;
+            provinceName = address.provinceName;
+            houseNumber = address.houseNumber;
+            streetNumber = address.streetNumber;
+
+            if (address is Village)
+            {
+                var villageAddress = address as Village;
+                villageName = villageAddress.villageName;
+
+            }
+
+        }
+
         public string GetFullAddress()
         {
             string fullAddress = "";
@@ -20,6 +39,7 @@ namespace Models
             fullAddress += "Province " + provinceName;
             return fullAddress;
         }
+
         public string GetShortAddress()
         {
             string shortAddress = "";

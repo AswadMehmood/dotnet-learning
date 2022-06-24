@@ -1,5 +1,6 @@
 ﻿using dotnet_learning.Models;
 using Models;
+using dotnet_learning.Composers;
 using System.Text.RegularExpressions;
 
 namespace dotnet_learning
@@ -28,77 +29,11 @@ namespace dotnet_learning
                     addressBook.addresses.Add(villageAddress);
                 }
             }
-
-            string jsonString = ComposeJson();
+            
+            string jsonString = JsonComposer.ComposeJson(addressBook);
             WriteFileLines(jsonString);
 
         }
-
-        // '{"name":"John", "age":30, "car":null}'
-        public static string ComposeJson()
-        {
-            string output = "";
-            foreach (Address address in addressBook.addresses)
-            {
-                output += "{";
-
-                output += "\"houseNumber\"";
-                output += ":";
-                output += "\"" + address.houseNumber.ToString() + "\"";
-                output += ", ";
-
-                output += "\"streetNumber\"";
-                output += ":";
-                output += "\"" + address.streetNumber.ToString() + "\"";
-                output += ", ";
-
-                if (address is City)
-                {
-                    City city = new City(address);
-                    output += "\"sectreName\"";
-                    output += ":";
-                    output += "\"" + city.sectreName + "\"";
-                    output += ", ";
-
-                    output += "\"subSecter\"";
-                    output += ":";
-                    output += "\"" + city.subSecter.ToString() + "\"";
-                    output += ", ";
-                }
-                else
-                {
-                    Village village = new Village(address);
-                    output += "\"villageName\"";
-                    output += ":";
-                    output += "\"" + village.villageName + "\"";
-                    output += ", ";
-                }
-
-                output += "\"cityName\"";
-                output += ":";
-                output += "\"" + address.cityName + "\"";
-                output += ", ";
-
-                output += "\"districtName\"";
-                output += ":";
-                output += "\"" + address.districtName + "\"";
-                output += ", ";
-
-                output += "\"provinceName\"";
-                output += ":";
-                output += "\"" + address.provinceName + "\"";
-                
-
-              
-
-                output += "}\n";
-            }
-            return output;
-        }
-
-
-
-
 
         private static Village ParseVillageAddress(string fileLine)
         {
